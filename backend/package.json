@@ -1,0 +1,16 @@
+{
+  "name": "raw-material-agent-backend",
+  "version": "1.0.0",
+  "description": "Backend API and Agentic AI engine for Automated Raw Material Requirement Agent",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
