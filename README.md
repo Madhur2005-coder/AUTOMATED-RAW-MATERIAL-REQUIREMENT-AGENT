@@ -164,3 +164,63 @@ If you wish to demonstrate OpenAI LLM intelligence during your presentation:
 4. The system will automatically detect the key and switch from deterministic synthesis to GPT-4o-mini generation while preserving all mathematical verifications.
 
 ---
+
+## 9. 1-Click Free Cloud Deployment (Render.com)
+
+The project is pre-configured with a **single-service fullstack setup** and a **`render.yaml` Blueprint** to run 100% free on Render.
+
+### Option A: Automatic Blueprint (Easiest)
+1. Push your repository to your GitHub account:
+   ```bash
+   git add .
+   git commit -m "Configure production deployment"
+   git push origin main
+   ```
+2. Log into [Render.com](https://render.com) (free account).
+3. Click **New +** in the top navigation and select **Blueprint**.
+4. Connect your GitHub repository `AUTOMATED-RAW-MATERIAL-REQUIREMENT-AGENT`.
+5. Render reads `render.yaml` automatically:
+   - **Build Command**: `npm run build` (builds both frontend and backend)
+   - **Start Command**: `npm start`
+   - **Node Version**: `22.14.0` (required for built-in SQLite)
+6. Click **Apply**. Your app will build and deploy on a free live HTTPS URL (e.g., `https://raw-material-agent.onrender.com`).
+
+### Option B: Manual Web Service on Render
+If creating manually instead of Blueprint:
+1. Go to Render Dashboard -> **New +** -> **Web Service**.
+2. Connect your GitHub repository.
+3. Configure the following fields:
+   - **Name**: `raw-material-agent`
+   - **Environment / Runtime**: `Node`
+   - **Region**: Any (e.g., Oregon or Frankfurt)
+   - **Branch**: `main`
+   - **Build Command**: `npm run build`
+   - **Start Command**: `npm start`
+   - **Instance Type**: `Free`
+4. Under **Environment Variables**, add:
+   - `NODE_VERSION` = `22.14.0`
+   - `OPENAI_API_KEY` = *(Optional: paste your OpenAI key, or leave blank to use the autonomous agent)*
+5. Click **Create Web Service**.
+
+### Alternative Free Hosting Platforms
+- **Railway.app**: Connect repo, set build command to `npm run build` and start command to `npm start`. Add environment variable `NODE_VERSION=22.14.0`.
+- **Koyeb**: Connect GitHub, select Node runtime, set build command to `npm run build` and start command to `npm start`.
+
+---
+
+## 10. College Presentation & Viva Talking Points
+
+When presenting this project to examiners, highlight the following 4 core answers:
+
+### Q1: What makes this an "Agent"?
+> *"A calculator takes inputs and runs an isolated equation. Our agent takes a high-level goal, autonomously executes a 7-step sequence (perception, BOM retrieval, warehouse inventory audit, safety stock subtraction, shortage calculation, and procurement synthesis), and generates an auditable Decision Log detailing each deduction."*
+
+### Q2: Why is Safety Stock critical in the calculation?
+> *"Safety stock represents emergency buffer stock. The agent enforces `Available Usable = Current Stock - Safety Stock`. For example, with 700 kg of steel and 100 kg safety stock, only 600 kg is usable for production. The agent guarantees that manufacturing never depletes emergency reserves."*
+
+### Q3: What happens if API connectivity is lost during the viva?
+> *"The system is built with zero-failure resilience. It features a dual-agent engine: if OpenAI is unavailable, the deterministic rule-based agent executes the identical 7-step analytical pipeline without errors."*
+
+### Q4: How are decisions audited?
+> *"Every agent action produces a timestamped entry in the Agent Decision Log (with ✓ for sufficiency and ⚠ for shortage warnings) and is persistently recorded in SQLite for supply chain auditability."*
+

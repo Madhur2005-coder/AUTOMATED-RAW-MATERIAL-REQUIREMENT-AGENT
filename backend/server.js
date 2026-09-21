@@ -1,10 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
 import { db, initDatabase, seedData } from './database.js';
 import { runPlanningAgent } from './agent/planningAgent.js';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -208,6 +214,18 @@ app.post('/api/demo-reset', (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// --- Serve Static Frontend (Production / Single-Service Deployment) ---
+const frontendDist = path.resolve(__dirname, '../frontend/dist');
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.resolve(frontendDist, 'index.html'));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`==================================================`);
